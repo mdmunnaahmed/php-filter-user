@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/date.css" />
+  </head>
+
+  <style>
+    .card {
+      padding: 40px;
+    }
+  </style>
+  <body>
+    <div class="card">
+      <div class="card-header"></div>
+      <div class="card-body">
+        <form action="">
+          <div class="form-group">
+            <label for="startDate">Start Date</label>
+            <input type="text" class="datepicker-here form-control" data-language="en" data-position="bottom left" placeholder="Select date" />
+          </div>
+        </form>
+      </div>
+      <div class="card-footer"></div>
+    </div>
+  </body>
+
+  <script src="./assets/jquery.js"></script>
+  <script src="./assets/date.js"></script>
+  <script src="./assets/en.js"></script>
+  <script>
+    $(".datepicker-here").datepicker();
+  </script>
+</html>
