@@ -147,6 +147,8 @@
       <div class="card-footer"></div>
     </div>
     <div id="loader"></div>
+    <div id="userName"></div>
+    <div id="ytUsername"></div>
     <div id="results">
       <table>
         <tr>
@@ -228,6 +230,8 @@
 
       const loader = document.getElementById('loader');
       const resultsDiv = document.getElementById('results');
+      const userNameDiv = document.getElementById('userName');
+      const userAgeDiv = document.getElementById('ytUsername');
 
       // Show loader
       loader.style.display = 'block';
@@ -250,10 +254,12 @@
         })
         .then(data => {
           setTimeout(() => {
-            // Hide loader immediately
+            // Hide loader
             loader.style.display = 'none';
 
-            resultsDiv.innerHTML = '<h2>Results</h2>';
+            resultsDiv.innerHTML = '<h2>Random User</h2>';
+            userNameDiv.textContent = '';
+            userAgeDiv.textContent = '';
 
             if (data.error) {
               resultsDiv.innerHTML += `<p>Error: ${data.error}</p>`;
@@ -261,9 +267,26 @@
             }
 
             if (data.length > 0) {
-              // Sort data by created_time in descending order
-              data.sort((a, b) => new Date(b.created_time) - new Date(a.created_time));
+              // Filter data based on selected date range
+              const filteredData = data.filter(user => {
+                const userDate = new Date(user.created_time);
+                return userDate >= new Date(startDate) && userDate <= new Date(endDate);
+              });
 
+              if (filteredData.length === 0) {
+                resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
+                return;
+              }
+
+              // Randomly select one user
+              const randomIndex = Math.floor(Math.random() * filteredData.length);
+              const randomUser = filteredData[randomIndex];
+
+              // Display the randomly selected user's name and age
+              userNameDiv.textContent = `Name: ${randomUser.firstName} ${randomUser.lastName}`;
+              userAgeDiv.textContent = `Youtube Username: ${randomUser.ytUsername}`;
+
+              // Display the randomly selected user in a table
               const table = document.createElement('table');
               const headerRow = document.createElement('tr');
               const headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Age', 'YouTube Username', 'Created Time'];
@@ -276,14 +299,12 @@
 
               const tbody = document.createElement('tbody'); // Create tbody element
 
-              // Loop through the sorted data to create rows
-              data.forEach(rowData => {
-                const row = tbody.insertRow(); // Insert row
-                for (const key in rowData) {
-                  const cell = row.insertCell();
-                  cell.textContent = rowData[key];
-                }
-              });
+              // Create row for the random user
+              const row = tbody.insertRow(); // Insert row
+              for (const key in randomUser) {
+                const cell = row.insertCell();
+                cell.textContent = randomUser[key];
+              }
 
               table.appendChild(tbody); // Append tbody to table
 
@@ -291,11 +312,12 @@
             } else {
               resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
             }
-          }, 1000);
+          }, 1000); // Delay of 3 seconds
         })
-
         .catch(error => {
+          // Hide loader
           loader.style.display = 'none';
+
           resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
           console.error('Error:', error);
         });
