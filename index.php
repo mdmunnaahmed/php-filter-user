@@ -187,6 +187,7 @@
     width: 120px;
     height: 120px;
     animation: spin 1.5s linear infinite;
+    z-index: 11111;
   }
 
   @keyframes spin {
