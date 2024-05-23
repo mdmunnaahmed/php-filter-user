@@ -14,12 +14,14 @@
   * {
     box-sizing: border-box;
     font-family: "Raleway", sans-serif;
+    margin: 0;
   }
 
   body {
     font-weight: 500;
     font-size: 1rem;
     background: #00000006;
+    color: #354565;
   }
 
   main {
@@ -28,14 +30,44 @@
     flex-direction: column;
     align-items: center;
     padding: 50px 20px;
+    position: relative;
+    z-index: 1;
   }
 
   .card {
-    padding: 25px;
     box-shadow: 0 2px 35px #00000015;
-    max-width: 650px;
+    max-width: 1000px;
     width: 100%;
     background: white;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .card-header {
+    padding: 25px;
+    padding-bottom: 0;
+  }
+
+  .card-body {
+    padding: 30px;
+  }
+
+  .shape {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    opacity: .3;
+  }
+
+  .shape.right {
+    left: auto;
+    right: 0;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 24px;
   }
 
   @media (max-width: 575px) {
@@ -87,7 +119,7 @@
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-    margin-top: 25px;
+    margin-top: 20px;
     box-shadow: 0 2px 35px #00000015;
   }
 
@@ -95,6 +127,34 @@
   th {
     padding: 15px 25px;
     border: 1px solid #00000025;
+  }
+
+  .winner-card {
+    position: relative;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 650px;
+    width: 100%;
+    box-shadow: 0 5px 45px #00000006;
+    background-color: #fff;
+    margin-top: 35px;
+    z-index: 1;
+    margin-bottom: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .winner-card h3 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .winner-details {
+    font-size: 20px;
+  }
+  #userName {
+    color: #eaa400;
+    font-weight: 600;
   }
 </style>
 
@@ -111,7 +171,7 @@
     border-top: 16px solid #000;
     width: 120px;
     height: 120px;
-    animation: spin 2s linear infinite;
+    animation: spin 1.5s linear infinite;
   }
 
   @keyframes spin {
@@ -127,8 +187,12 @@
 
 <body>
   <main>
+    <img src="./assets/shape-left.png" alt="shape" class="shape left">
+    <img src="./assets/shape-right.png" alt="shape" class="shape right">
     <div class="card">
-      <div class="card-header"></div>
+      <div class="card-header">
+        <h1 class="title">Let's get a winner from:</h1>
+      </div>
       <div class="card-body">
         <form id="dateRangeForm">
           <div class="form-wrapper">
@@ -147,8 +211,11 @@
       <div class="card-footer"></div>
     </div>
     <div id="loader"></div>
-    <div id="userName"></div>
-    <div id="ytUsername"></div>
+    <div class="winner-card">
+      <h3>Our Today's Lucky Winner</h3>
+      <div id="userName">Name: Serena Silva</div>
+      <div id="ytUsername">Youtube Usrename: Serena Silva</div>
+    </div>
     <div id="results">
       <table>
         <tr>
@@ -257,7 +324,7 @@
             // Hide loader
             loader.style.display = 'none';
 
-            resultsDiv.innerHTML = '<h2>Random User</h2>';
+            resultsDiv.innerHTML = '<h2 class="winner-details">Winner Details</h2>';
             userNameDiv.textContent = '';
             userAgeDiv.textContent = '';
 
