@@ -132,7 +132,7 @@
   .winner-card {
     position: relative;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 8px;
     max-width: 650px;
     width: 100%;
     box-shadow: 0 5px 45px #00000006;
@@ -145,16 +145,31 @@
     flex-direction: column;
     gap: 8px;
   }
+
   .winner-card h3 {
     text-align: center;
     margin-bottom: 15px;
   }
+
   .winner-details {
     font-size: 20px;
   }
+
   #userName {
     color: #eaa400;
     font-weight: 600;
+  }
+  .winner-card .inner-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 60px;
   }
 </style>
 
@@ -212,9 +227,12 @@
     </div>
     <div id="loader"></div>
     <div class="winner-card">
-      <h3>Our Today's Lucky Winner</h3>
-      <div id="userName">Name: Serena Silva</div>
-      <div id="ytUsername">Youtube Usrename: Serena Silva</div>
+      <img src="./assets/frame.png" alt="frame" class="frame">
+      <div class="inner-content">
+        <h3>Our Today's Lucky Winner</h3>
+        <div id="userName">Name: Serena Silva</div>
+        <div id="ytUsername">Youtube Usrename: Serena Silva</div>
+      </div>
     </div>
     <div id="results">
       <table>
