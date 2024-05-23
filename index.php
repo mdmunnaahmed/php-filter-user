@@ -144,6 +144,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    display: none;
   }
 
   .winner-card h3 {
@@ -159,6 +160,7 @@
     color: #eaa400;
     font-weight: 600;
   }
+
   .winner-card .inner-content {
     position: absolute;
     left: 0;
@@ -199,13 +201,17 @@
       transform: rotate(360deg);
     }
   }
+
+  #results {
+    display: none;
+  }
 </style>
 
 <body>
   <main>
     <img src="./assets/shape-left.png" alt="shape" class="shape left">
     <img src="./assets/shape-right.png" alt="shape" class="shape right">
-    <div class="card">
+    <div class="card" id="formCard">
       <div class="card-header">
         <h1 class="title">Let's get a winner from:</h1>
       </div>
@@ -227,7 +233,7 @@
       <div class="card-footer"></div>
     </div>
     <div id="loader"></div>
-    <div class="winner-card">
+    <div class="winner-card" id="winner-card">
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
         <h3>Our Today's Lucky Winner</h3>
@@ -316,6 +322,8 @@
 
       const loader = document.getElementById('loader');
       const resultsDiv = document.getElementById('results');
+      const winnerCard = document.getElementById('winner-card');
+      const formCard = document.getElementById('formCard');
       const userNameDiv = document.getElementById('userName');
       const userAgeDiv = document.getElementById('ytUsername');
 
@@ -393,8 +401,10 @@
               }
 
               table.appendChild(tbody); // Append tbody to table
-
               resultsDiv.appendChild(table);
+              
+              formCard.style.display = 'none'
+              winnerCard.style.display = 'flex'
             } else {
               resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
             }
