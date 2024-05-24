@@ -44,12 +44,18 @@
   }
 
   .card-header {
-    padding: 25px;
+    padding: 40px 40px 50px;
     padding-bottom: 0;
+    text-align: center;
+  }
+
+  .logo-icon {
+    width: 100px;
+    margin-bottom: 10px;
   }
 
   .card-body {
-    padding: 30px;
+    padding: 40px;
   }
 
   .shape {
@@ -177,7 +183,7 @@
 
 <style>
   #loader {
-    display: none;
+    /* display: none; */
     /* Hidden by default */
     position: fixed;
     left: 50%;
@@ -190,20 +196,51 @@
     height: 120px;
     animation: spin 1.5s linear infinite;
     z-index: 11111;
+    background-color: #00000045;
+    backdrop-filter: blur(15px);
   }
 
   @keyframes spin {
     0% {
-      transform: rotate(0deg);
+      transform: translate(-50%, -50%) rotate(0deg);
     }
 
     100% {
-      transform: rotate(360deg);
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 
   #results {
     display: none;
+  }
+
+  #loader-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #00000025;
+  }
+
+  .loader-inner {
+    max-width: 650px;
+    width: 100%;
+    min-height: 300px;
+    background-color: white;
+    box-shadow: 0 5px 45px #00000010;
+    border-radius: 8px;
+    padding: 30px;
+  }
+  .step.one {
+    text-align: center;
+  }
+  .step.one h2 {
+    margin-bottom: 10px;
   }
 </style>
 
@@ -213,6 +250,7 @@
     <img src="./assets/shape-right.png" alt="shape" class="shape right">
     <div class="card" id="formCard">
       <div class="card-header">
+        <img src="./assets/logo-with-thicker-outline.png" alt="thinkandsay" class="logo-icon">
         <h1 class="title">Let's get a winner from:</h1>
       </div>
       <div class="card-body">
@@ -232,7 +270,15 @@
       </div>
       <div class="card-footer"></div>
     </div>
-    <div id="loader"></div>
+    <div id="loader-wrapper">
+      <div class="loader-inner">
+        <div class="step one">
+          <h2>Hey, We are randomly selecting a Winner</h2>
+          <p>in the meantime let's intruduce with our Brand:</p>
+          <img src="./assets/logo-with-thicker-outline.png" alt="icon" width="130" style="margin-top: 25px;">
+        </div>
+      </div>
+    </div>
     <div class="winner-card" id="winner-card">
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
@@ -402,7 +448,7 @@
 
               table.appendChild(tbody); // Append tbody to table
               resultsDiv.appendChild(table);
-              
+
               formCard.style.display = 'none'
               winnerCard.style.display = 'flex'
             } else {
