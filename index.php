@@ -210,6 +210,7 @@
   #results {
     display: none;
   }
+
   #results.active {
     display: block;
   }
@@ -229,10 +230,12 @@
     visibility: hidden;
     transition: all .3s ease-in;
   }
+
   #loader-wrapper.active {
     opacity: 1;
     visibility: visible;
   }
+
   #loader-wrapper.active .loader-inner {
     transform: scale(1);
   }
@@ -304,13 +307,35 @@
     font-size: 36px;
     z-index: 999
   }
+
+  #winVideo {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  #overlay {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: 24px;
+    z-index: 1000;
+  }
 </style>
 
 <body>
   <main>
     <img src="./assets/shape-left.png" alt="shape" class="shape left">
     <img src="./assets/shape-right.png" alt="shape" class="shape right">
-    <div class="card" id="formCard">
+    <!-- <div class="card" id="formCard">
       <div class="card-header">
         <img src="./assets/logo-with-thicker-outline.png" alt="thinkandsay" class="logo-icon">
         <h1 class="title">Let’s pick today’s winner:</h1>
@@ -331,7 +356,7 @@
         </form>
       </div>
       <div class="card-footer"></div>
-    </div>
+    </div> -->
     <div id="loader-wrapper">
       <div class="loader-inner">
         <div class="step one">
@@ -361,70 +386,53 @@
       </div>
     </div>
     <div id="results">
-      <table>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Age</th>
-          <th>YouTube Username</th>
-          <th>Created Time</th>
-        </tr>
-        <tr>
-          <td>16</td>
-          <td>Ruby</td>
-          <td>Duke</td>
-          <td>faqor@mailinator.com</td>
-          <td>+1 (249) 117-5918</td>
-          <td>0</td>
-          <td>dityheroxu</td>
-          <td>2024-05-28 07:21:03</td>
-        </tr>
-        <tr>
-          <td>18</td>
-          <td>Hilary</td>
-          <td>Benjamin</td>
-          <td>rumocobip@mailinator.com</td>
-          <td>+1 (989) 617-2731</td>
-          <td>0</td>
-          <td>zyfef</td>
-          <td>2024-05-30 07:21:13</td>
-        </tr>
-        <tr>
-          <td>21</td>
-          <td>Haviva</td>
-          <td>Knight</td>
-          <td>luxocyd@mailinator.com</td>
-          <td>+1 (269) 747-4311</td>
-          <td>76</td>
-          <td>bihafol</td>
-          <td>2024-05-31 07:38:38</td>
-        </tr>
-        <tr>
-          <td>25</td>
-          <td>Allen</td>
-          <td>Anderson</td>
-          <td>cehy@mailinator.com</td>
-          <td>+1 (954) 808-6364</td>
-          <td>44</td>
-          <td>xedehehik</td>
-          <td>2024-05-23 09:51:01</td>
-        </tr>
-        <tr>
-          <td>26</td>
-          <td>Chiquita</td>
-          <td>Fuller</td>
-          <td>gydywecuf@mailinator.com</td>
-          <td>+1 (277) 144-1774</td>
-          <td>72</td>
-          <td>gylijeqap</td>
-          <td>2024-05-25 10:13:34</td>
-        </tr>
-      </table>
     </div>
+    <video id="winVideo" width="100%" autoplay loop preload="auto" poster="">
+      <source src="./assets/win.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="overlay"></div>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const video = document.getElementById('winVideo');
+      const overlay = document.getElementById('overlay');
+
+      // Ensure the video is muted for autoplay
+      video.muted = true;
+
+      // Try to play the video
+      video.play().then(() => {
+        // Show the overlay to ask for user interaction
+        overlay.style.display = 'flex';
+
+        // Define the click function
+        function clickFunction() {
+          overlay.click();
+        }
+
+        // Set a timeout to simulate the click after 100ms
+        setTimeout(clickFunction, 1000);
+
+        // Handle the actual click event
+        overlay.addEventListener('click', () => {
+          // Hide the overlay
+          overlay.style.display = 'none';
+
+          // Unmute the video
+          video.muted = false;
+
+          // Play the video again to ensure sound plays
+          video.play().catch(error => {
+            console.error('Playback failed:', error);
+          });
+        });
+      }).catch(error => {
+        console.error('Autoplay was prevented:', error);
+      });
+    });
+  </script>
 
   <script>
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
@@ -524,7 +532,7 @@
             } else {
               resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
             }
-          }, 14000); // Delay of 3 seconds
+          }, 18000); // Delay of 3 seconds
         })
         .catch(error => {
           // Hide loader
@@ -585,7 +593,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const steps = document.querySelectorAll('.step');
-      const duration = [2000, 10000, 2000]; // Duration in milliseconds for each step (2s, 10s, 2s)
+      const duration = [5000, 10000, 2000]; // Duration in milliseconds for each step (2s, 10s, 2s)
       const countdownTime = 10; // Countdown start time in seconds
       const counterWrapper = document.getElementById('loader-wrapper');
       const countDownElement = document.getElementById('countDown');
