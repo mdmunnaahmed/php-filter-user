@@ -313,7 +313,7 @@
     <div class="card" id="formCard">
       <div class="card-header">
         <img src="./assets/logo-with-thicker-outline.png" alt="thinkandsay" class="logo-icon">
-        <h1 class="title">Let's get a winner from:</h1>
+        <h1 class="title">Let’s pick today’s winner:</h1>
       </div>
       <div class="card-body">
         <form id="dateRangeForm">
@@ -335,15 +335,15 @@
     <div id="loader-wrapper">
       <div class="loader-inner">
         <div class="step one">
-          <h2>Hey, We are randomly selecting a Winner</h2>
-          <p>in the meantime let's intruduce with our Brand:</p>
+          <h2>Hey! Our system is randomly select a winner</h2>
+          <p>in the meantime let's introduce our Brand:</p>
           <img src="./assets/logo-with-thicker-outline.png" alt="icon" width="130" style="margin-top: 30px;">
           <h3 style="margin-top: 5px;">Think and Say</h3>
         </div>
         <div class="step two" id="counterWrapper">
           <div id="loader"></div>
           <h2 id="countDown"></h2>
-          <p style="text-align: center">Hold Tight! <br> While We are Selecting You!</p>
+          <p style="text-align: center">Hold Tight! <br> While the winner is being selected</p>
         </div>
         <div class="step three">
           <div id="loader"></div>
@@ -354,7 +354,7 @@
     <div class="winner-card" id="winner-card">
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
-        <h3>Our Today's Lucky Winner</h3>
+        <h3>Today's Lucky Winner:</h3>
         <div id="userName">Name: Serena Silva</div>
         <div id="ytUsername"><span>Youtube Username:</span> Serena Silva</div>
         <a href="#results" style="margin-top: 10px; font-size: 14px" id="showDetails">See full details</a>
