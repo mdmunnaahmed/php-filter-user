@@ -5,11 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="./assets/date.css" />
 </head>
 
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+  html {
+    scroll-behavior: smooth;
+  }
 
   * {
     box-sizing: border-box;
@@ -150,6 +153,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    z-index: 111;
     display: none;
   }
 
@@ -183,35 +187,31 @@
 
 <style>
   #loader {
-    /* display: none; */
-    /* Hidden by default */
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 16px solid #f1f1f1;
+    border: 12px solid #f1f1f1;
     border-radius: 50%;
-    border-top: 16px solid #000;
+    border-top: 12px solid #E50B5D;
     width: 120px;
     height: 120px;
     animation: spin 1.5s linear infinite;
     z-index: 11111;
-    background-color: #00000045;
-    backdrop-filter: blur(15px);
+    margin-inline: auto;
   }
 
   @keyframes spin {
     0% {
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: rotate(0deg);
     }
 
     100% {
-      transform: translate(-50%, -50%) rotate(360deg);
+      transform: rotate(360deg);
     }
   }
 
   #results {
     display: none;
+  }
+  #results.active {
+    display: block;
   }
 
   #loader-wrapper {
@@ -225,6 +225,16 @@
     align-items: center;
     justify-content: center;
     background-color: #00000025;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in;
+  }
+  #loader-wrapper.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  #loader-wrapper.active .loader-inner {
+    transform: scale(1);
   }
 
   .loader-inner {
@@ -235,12 +245,64 @@
     box-shadow: 0 5px 45px #00000010;
     border-radius: 8px;
     padding: 30px;
+    position: relative;
+    transition: all .3s ease-in;
+    transform: scale(.6);
   }
+
+  .step {
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s linear;
+  }
+
+  .step.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
   .step.one {
     text-align: center;
   }
+
   .step.one h2 {
     margin-bottom: 10px;
+  }
+
+  .step.three {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .step.two {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  #countDown {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    z-index: 999
   }
 </style>
 
@@ -275,7 +337,17 @@
         <div class="step one">
           <h2>Hey, We are randomly selecting a Winner</h2>
           <p>in the meantime let's intruduce with our Brand:</p>
-          <img src="./assets/logo-with-thicker-outline.png" alt="icon" width="130" style="margin-top: 25px;">
+          <img src="./assets/logo-with-thicker-outline.png" alt="icon" width="130" style="margin-top: 30px;">
+          <h3 style="margin-top: 5px;">Think and Say</h3>
+        </div>
+        <div class="step two" id="counterWrapper">
+          <div id="loader"></div>
+          <h2 id="countDown"></h2>
+          <p style="text-align: center">Hold Tight! <br> While We are Selecting You!</p>
+        </div>
+        <div class="step three">
+          <div id="loader"></div>
+          <p>The Winner is Almost here!</p>
         </div>
       </div>
     </div>
@@ -284,7 +356,8 @@
       <div class="inner-content">
         <h3>Our Today's Lucky Winner</h3>
         <div id="userName">Name: Serena Silva</div>
-        <div id="ytUsername">Youtube Usrename: Serena Silva</div>
+        <div id="ytUsername"><span>Youtube Username:</span> Serena Silva</div>
+        <a href="#results" style="margin-top: 10px; font-size: 14px" id="showDetails">See full details</a>
       </div>
     </div>
     <div id="results">
@@ -353,19 +426,14 @@
     </div>
   </main>
 
-  <script src="./assets/jquery.js"></script>
-  <script src="./assets/date.js"></script>
-  <script src="./assets/en.js"></script>
-  <script>
-    $(".datepicker-here").datepicker();
-  </script>
-
   <script>
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
       event.preventDefault();
       const startDate = document.getElementById('startDate').value;
       const endDate = document.getElementById('endDate').value;
 
+      const counterWrapper = document.getElementById('counterWrapper');
+      const loaderWrapper = document.getElementById('loader-wrapper');
       const loader = document.getElementById('loader');
       const resultsDiv = document.getElementById('results');
       const winnerCard = document.getElementById('winner-card');
@@ -374,7 +442,9 @@
       const userAgeDiv = document.getElementById('ytUsername');
 
       // Show loader
-      loader.style.display = 'block';
+      // loader.style.display = 'block';
+      // loaderWrapper.style.display = 'flex';
+      loaderWrapper.classList.add('active')
 
       fetch('fetch.php', {
           method: 'POST',
@@ -395,7 +465,7 @@
         .then(data => {
           setTimeout(() => {
             // Hide loader
-            loader.style.display = 'none';
+            loaderWrapper.style.display = 'none';
 
             resultsDiv.innerHTML = '<h2 class="winner-details">Winner Details</h2>';
             userNameDiv.textContent = '';
@@ -454,7 +524,7 @@
             } else {
               resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
             }
-          }, 1000); // Delay of 3 seconds
+          }, 14000); // Delay of 3 seconds
         })
         .catch(error => {
           // Hide loader
@@ -464,6 +534,126 @@
           console.error('Error:', error);
         });
     });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      const parentElement = document.getElementById('counterWrapper');
+      const countDownElement = document.getElementById('countDown');
+      const countdownTime = 10; // Countdown start time
+      const delay = 0; // Delay before starting countdown in milliseconds (e.g., 2000ms = 2s)
+
+      function startCountdown(time) {
+        let currentTime = time;
+        countDownElement.textContent = currentTime;
+
+        const interval = setInterval(() => {
+          currentTime--;
+          countDownElement.textContent = currentTime;
+
+          if (currentTime <= 0) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+
+      // Function to check if parent element has 'active' class and start countdown
+      function checkActiveClass() {
+        if (parentElement.classList.contains('active')) {
+          setTimeout(() => {
+            startCountdown(countdownTime);
+          }, delay);
+        }
+      }
+
+      // MutationObserver to detect class changes on the parent element
+      const observer = new MutationObserver(() => {
+        checkActiveClass();
+      });
+
+      // Observe class changes on the parent element
+      observer.observe(parentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      // Initial check in case the class is added on page load
+      checkActiveClass();
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const steps = document.querySelectorAll('.step');
+      const duration = [2000, 10000, 2000]; // Duration in milliseconds for each step (2s, 10s, 2s)
+      const countdownTime = 10; // Countdown start time in seconds
+      const counterWrapper = document.getElementById('loader-wrapper');
+      const countDownElement = document.getElementById('countDown');
+      let currentStep = 0;
+
+      function showStep(index) {
+        steps.forEach((step, i) => {
+          step.classList.toggle('active', i === index);
+        });
+
+        if (index === 1) { // Start countdown in step two
+          startCountdown(countdownTime);
+        }
+      }
+
+      function nextStep() {
+        showStep(currentStep);
+
+        setTimeout(() => {
+          currentStep++;
+          if (currentStep < steps.length) {
+            nextStep();
+          }
+        }, duration[currentStep]);
+      }
+
+      function startCountdown(time) {
+        let currentTime = time;
+        countDownElement.textContent = currentTime;
+
+        const interval = setInterval(() => {
+          currentTime--;
+          countDownElement.textContent = currentTime;
+
+          if (currentTime <= 0) {
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+
+      // Function to start the process when counterWrapper gets 'active' class
+      function checkActiveClass() {
+        if (counterWrapper.classList.contains('active')) {
+          nextStep();
+        }
+      }
+
+      // MutationObserver to detect class changes on the counterWrapper
+      const observer = new MutationObserver(() => {
+        checkActiveClass();
+      });
+
+      // Observe class changes on the counterWrapper
+      observer.observe(counterWrapper, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      // Initial check in case the class is added on page load
+      checkActiveClass();
+    });
+  </script>
+
+  <script>
+    document.getElementById('showDetails').addEventListener('click', function() {
+      let results = document.getElementById('results')
+      results.classList.toggle('active')
+    })
   </script>
 </body>
 
