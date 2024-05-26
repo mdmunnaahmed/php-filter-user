@@ -398,7 +398,7 @@
         </div>
       </div>
     </div>
-    <div class="winner-card" id="winner-card" style="display: flex !important;">
+    <div class="winner-card" id="winner-card">
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
         <h2>Congratulations!!!</h2>
@@ -485,8 +485,8 @@
               const randomUser = filteredData[randomIndex];
 
               // Display the randomly selected user's name and age
-              userNameDiv.textContent = `Name: ${randomUser.firstName} ${randomUser.lastName}`;
-              userAgeDiv.textContent = `Youtube Username: ${randomUser.ytUsername}`;
+              userNameDiv.textContent = `${randomUser.firstName} ${randomUser.lastName}`;
+              userAgeDiv.textContent = `Username: ${randomUser.ytUsername}`;
 
               // Display the randomly selected user in a table
               const table = document.createElement('table');
