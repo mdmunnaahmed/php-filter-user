@@ -314,6 +314,7 @@
     right: 0;
     top: 0;
     bottom: 0;
+    display: none;
   }
 
   #overlay {
@@ -327,7 +328,7 @@
     height: 100%;
     color: white;
     font-size: 24px;
-    z-index: 1000;
+    z-index: 100;
   }
 </style>
 
@@ -335,10 +336,10 @@
   <main>
     <img src="./assets/shape-left.png" alt="shape" class="shape left">
     <img src="./assets/shape-right.png" alt="shape" class="shape right">
-    <!-- <div class="card" id="formCard">
+    <div class="card" id="formCard">
       <div class="card-header">
         <img src="./assets/logo-with-thicker-outline.png" alt="thinkandsay" class="logo-icon">
-        <h1 class="title">Let’s pick today’s winner:</h1>
+        <h1 class="title">Let's pick today's winner:</h1>
       </div>
       <div class="card-body">
         <form id="dateRangeForm">
@@ -356,7 +357,7 @@
         </form>
       </div>
       <div class="card-footer"></div>
-    </div> -->
+    </div>
     <div id="loader-wrapper">
       <div class="loader-inner">
         <div class="step one">
@@ -380,14 +381,14 @@
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
         <h3>Today's Lucky Winner:</h3>
-        <div id="userName">Name: Serena Silva</div>
-        <div id="ytUsername"><span>Youtube Username:</span> Serena Silva</div>
+        <div id="userName"></div>
+        <div id="ytUsername"></div>
         <a href="#results" style="margin-top: 10px; font-size: 14px" id="showDetails">See full details</a>
       </div>
     </div>
     <div id="results">
     </div>
-    <video id="winVideo" width="100%" autoplay loop preload="auto" poster="">
+    <video id="winVideo" width="100%" autoplay mute loop preload="auto" poster="">
       <source src="./assets/win.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -395,43 +396,44 @@
   </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const video = document.getElementById('winVideo');
-      const overlay = document.getElementById('overlay');
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   const video = document.getElementById('winVideo');
+    //   const overlay = document.getElementById('overlay');
 
-      // Ensure the video is muted for autoplay
-      video.muted = true;
+    //   // Ensure the video is muted for autoplay
+    //   video.muted = true;
 
-      // Try to play the video
-      video.play().then(() => {
-        // Show the overlay to ask for user interaction
-        overlay.style.display = 'flex';
+    //   // Try to play the video
+    //   video.play().then(() => {
+    //     // Show the overlay to ask for user interaction
+    //     overlay.style.display = 'flex';
 
-        // Define the click function
-        function clickFunction() {
-          overlay.click();
-        }
+    //     // Handle the actual click event
+    //     overlay.addEventListener('click', () => {
+    //       // Hide the overlay
+    //       overlay.style.display = 'none';
 
-        // Set a timeout to simulate the click after 100ms
-        setTimeout(clickFunction, 1000);
+    //       // Unmute the video
+    //       video.muted = false;
 
-        // Handle the actual click event
-        overlay.addEventListener('click', () => {
-          // Hide the overlay
-          overlay.style.display = 'none';
+    //       // Play the video again to ensure sound plays
+    //       video.play().catch(error => {
+    //         console.error('Playback failed:', error);
+    //       });
+    //     });
+    //   }).catch(error => {
+    //     console.error('Autoplay was prevented:', error);
+    //   });
+    // });
 
-          // Unmute the video
-          video.muted = false;
+    // // Define the click function
+    // function clickFunction() {
+    //   const overlay = document.getElementById('overlay');
+    //   overlay.click();
+    // }
 
-          // Play the video again to ensure sound plays
-          video.play().catch(error => {
-            console.error('Playback failed:', error);
-          });
-        });
-      }).catch(error => {
-        console.error('Autoplay was prevented:', error);
-      });
-    });
+    // // Set a timeout to simulate the click after 100ms
+    // setTimeout(clickFunction, 1000);
   </script>
 
   <script>
@@ -448,7 +450,7 @@
       const formCard = document.getElementById('formCard');
       const userNameDiv = document.getElementById('userName');
       const userAgeDiv = document.getElementById('ytUsername');
-
+      const video = document.getElementById('winVideo');
       // Show loader
       // loader.style.display = 'block';
       // loaderWrapper.style.display = 'flex';
@@ -474,6 +476,8 @@
           setTimeout(() => {
             // Hide loader
             loaderWrapper.style.display = 'none';
+            video.style.display = 'block';
+            video.play()
 
             resultsDiv.innerHTML = '<h2 class="winner-details">Winner Details</h2>';
             userNameDiv.textContent = '';
@@ -532,7 +536,7 @@
             } else {
               resultsDiv.innerHTML += '<p>No data found for the selected date range.</p>';
             }
-          }, 18000); // Delay of 3 seconds
+          }, 17000);
         })
         .catch(error => {
           // Hide loader
@@ -593,7 +597,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const steps = document.querySelectorAll('.step');
-      const duration = [5000, 10000, 2000]; // Duration in milliseconds for each step (2s, 10s, 2s)
+      const duration = [4000, 10000, 2000]; // Duration in milliseconds for each step (2s, 10s, 2s)
       const countdownTime = 10; // Countdown start time in seconds
       const counterWrapper = document.getElementById('loader-wrapper');
       const countDownElement = document.getElementById('countDown');
