@@ -141,7 +141,7 @@
   .winner-card {
     position: relative;
     padding: 30px;
-    border-radius: 8px;
+    border-radius: 40px;
     max-width: 650px;
     width: 100%;
     box-shadow: 0 5px 45px #00000006;
@@ -159,7 +159,28 @@
 
   .winner-card h3 {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    font-size: 30px;
+    font-weight: 400 !important;
+  }
+
+  .winner-card h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #DA9C3E;
+    text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  .name {
+    font-size: 30px;
+    margin-bottom: 5px;
+    color: #E50B5D !important;
+    font-weight: 700 !important;
+  }
+
+  .ytname {
+    font-size: 20px;
   }
 
   .winner-details {
@@ -377,13 +398,13 @@
         </div>
       </div>
     </div>
-    <div class="winner-card" id="winner-card">
+    <div class="winner-card" id="winner-card" style="display: flex !important;">
       <img src="./assets/frame.png" alt="frame" class="frame">
       <div class="inner-content">
-        <h3>Today's Lucky Winner:</h3>
-        <div id="userName"></div>
-        <div id="ytUsername"></div>
-        <a href="#results" style="margin-top: 10px; font-size: 14px" id="showDetails">See full details</a>
+        <h2>Congratulations!!!</h2>
+        <h3>Today's Lucky Winner is:</h3>
+        <div class="name" id="userName">Munna Ahmed</div>
+        <div class="ytname" id="ytUsername">Username: munns</div>
       </div>
     </div>
     <div id="results">
@@ -394,47 +415,6 @@
     </video>
     <div id="overlay"></div>
   </main>
-
-  <script>
-    // document.addEventListener('DOMContentLoaded', () => {
-    //   const video = document.getElementById('winVideo');
-    //   const overlay = document.getElementById('overlay');
-
-    //   // Ensure the video is muted for autoplay
-    //   video.muted = true;
-
-    //   // Try to play the video
-    //   video.play().then(() => {
-    //     // Show the overlay to ask for user interaction
-    //     overlay.style.display = 'flex';
-
-    //     // Handle the actual click event
-    //     overlay.addEventListener('click', () => {
-    //       // Hide the overlay
-    //       overlay.style.display = 'none';
-
-    //       // Unmute the video
-    //       video.muted = false;
-
-    //       // Play the video again to ensure sound plays
-    //       video.play().catch(error => {
-    //         console.error('Playback failed:', error);
-    //       });
-    //     });
-    //   }).catch(error => {
-    //     console.error('Autoplay was prevented:', error);
-    //   });
-    // });
-
-    // // Define the click function
-    // function clickFunction() {
-    //   const overlay = document.getElementById('overlay');
-    //   overlay.click();
-    // }
-
-    // // Set a timeout to simulate the click after 100ms
-    // setTimeout(clickFunction, 1000);
-  </script>
 
   <script>
     document.getElementById('dateRangeForm').addEventListener('submit', function(event) {
