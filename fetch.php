@@ -40,7 +40,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Prepare and execute the query
-    $stmt = $pdo->prepare('SELECT id, firstName, lastName, email, phone, age, ytUsername, created_time FROM users WHERE created_time BETWEEN :startDate AND :endDate');
+    $stmt = $pdo->prepare('SELECT id, firstName, lastName, email, phone, age, ytUsername, created_time FROM users WHERE created_time BETWEEN :startDate AND :endDate AND age >= 16');
     $stmt->bindParam(':startDate', $startDate);
     $stmt->bindParam(':endDate', $endDateTime);
     $stmt->execute();
